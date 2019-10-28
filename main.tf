@@ -41,7 +41,7 @@ resource "azurerm_public_ip" "pip" {
   name                         = "${var.prefix}-ip"
   location                     = "${var.location}"
   resource_group_name          = "${azurerm_resource_group.main.name}"
-  allocation_method            = "dynamic"
+  allocation_method            = "${var.pip_allocation_method}"
   domain_name_label            = "${var.hostname}"
 }
 
