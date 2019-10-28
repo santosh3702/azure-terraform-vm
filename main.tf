@@ -45,6 +45,11 @@ resource "azurerm_public_ip" "pip" {
   domain_name_label            = "${var.hostname}"
 }
 
+data "azurerm_public_ip" "pip" {
+  name                = "${azurerm_public_ip.pip.name}"
+  resource_group_name = "${azurerm_resource_group.main.name}"
+}
+
 resource "azurerm_network_interface" "nic" {
   name                      = "${var.prefix}-nic"
   location                  = "${var.location}"
@@ -101,8 +106,16 @@ resource "azurerm_virtual_machine" "ibm-mq" {
     environment = "staging"
   }
 
-  provisioner "local-exec" {
-    
-    command = "echo 'demo this' > private_ips.txt"
+   provisioner "remote-exec" {
+    connection {
+      type     = "ssh"
+      host     = "${data.azurerm_public_ip.pip.ip_address}"
+      user     = "${var.admin_username}"
+      password = "${var.admin_password}"
+    }
+
+    inline = [
+      "echo demo > /tmp/demo.txt",
+    ]
   }
 }
