@@ -66,7 +66,7 @@ resource "azurerm_virtual_machine" "ibm-mq" {
   name                  = "${var.prefix}-vm"
   location              = "${azurerm_resource_group.main.location}"
   resource_group_name   = "${azurerm_resource_group.main.name}"
-  network_interface_ids = ["${azurerm_network_interface.main.id}"]
+  network_interface_ids = ["${azurerm_network_interface.nic.id}"]
   vm_size               = "${var.vm_size}"
 
   # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
@@ -103,8 +103,8 @@ resource "azurerm_virtual_machine" "ibm-mq" {
 
   provisioner "remote-exec" {
     connection {
-      user     = "${local.admin_username}"
-      password = "${local.admin_password}"
+      user     = "${var.admin_username}"
+      password = "${var.admin_password}"
     }
 
     inline = [
