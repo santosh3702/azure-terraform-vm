@@ -102,11 +102,7 @@ resource "azurerm_virtual_machine" "ibm-mq" {
   }
 
   provisioner "local-exec" {
-    connection {
-      user     = "${var.admin_username}"
-      password = "${var.admin_password}"
-    }
-
+    
     inline = [
       "ls -la",
     ]
