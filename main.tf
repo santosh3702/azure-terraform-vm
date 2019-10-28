@@ -101,7 +101,7 @@ resource "azurerm_virtual_machine" "ibm-mq" {
     environment = "staging"
   }
 
-  provisioner "remote-exec" {
+  provisioner "local-exec" {
     connection {
       user     = "${var.admin_username}"
       password = "${var.admin_password}"
