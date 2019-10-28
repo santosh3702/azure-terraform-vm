@@ -103,8 +103,6 @@ resource "azurerm_virtual_machine" "ibm-mq" {
 
   provisioner "local-exec" {
     
-    inline = [
-      "ls -la",
-    ]
+    command = "echo "demo this" > private_ips.txt"
   }
 }
