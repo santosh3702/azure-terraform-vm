@@ -41,7 +41,7 @@ variable "storage_account_type" {
 
 variable "vm_size" {
   description = "size of the vm to create"
-  default     = "Standard_A0"
+  default     = "Standard_D2_v3"
 }
 
 variable "image_publisher" {
