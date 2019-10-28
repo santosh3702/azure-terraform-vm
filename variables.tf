@@ -70,8 +70,13 @@ variable "admin_username" {
 }
 
 variable "admin_password" {
-  description = "administrator password (recommended to disable password auth)"
-  default     = "notused"
+  description = "administrator password"
+  default     = "kD@123456789"
+}
+
+variable "pip_allocation_method" {
+  description = "public IP allocation method"
+  default     = "Dynamic"
 }
 
 variable "disable_password_authentication" {
