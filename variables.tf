@@ -24,10 +24,6 @@ variable "hostname" {
   description = "name of the machine to create"
 }
 
-variable "ssh_public_key" {
-  description = "public key for ssh access"
-}
-
 variable "vnet_address_space" {
   description = "full address space allowed to the virtual network"
   default     = "10.0.0.0/16"
