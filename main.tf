@@ -67,7 +67,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 
-resource "azurerm_virtual_machine" "ibm-mq" {
+resource "azurerm_virtual_machine" "vm" {
   name                  = "${var.prefix}-vm"
   location              = "${azurerm_resource_group.main.location}"
   resource_group_name   = "${azurerm_resource_group.main.name}"
@@ -106,16 +106,22 @@ resource "azurerm_virtual_machine" "ibm-mq" {
     environment = "staging"
   }
 
-   provisioner "remote-exec" {
-    connection {
-      type     = "ssh"
-      host     = "${data.azurerm_public_ip.pip.ip_address}"
-      user     = "${var.admin_username}"
-      password = "${var.admin_password}"
-    }
+}
+resource "azurerm_virtual_machine_extension" "test" {
+  name                 = "${var.hostname}"
+  location             = "${azurerm_resource_group.main.location}"
+  resource_group_name  = "${azurerm_resource_group.main.name}"
+  virtual_machine_name = "${azurerm_virtual_machine.vm.name}"
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
 
-    inline = [
-      "echo demo > /tmp/demo.txt",
-    ]
-  }
+  settings = <<SETTINGS
+    {
+      
+        "commandToExecute": "echo '${var.admin_password}' | sudo -S yum update -y && sudo -S yum install -y docker && sudo -S systemctl enable docker.service && sudo -S systemctl start docker.service"
+        
+    }
+SETTINGS
+
 }
